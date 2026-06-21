@@ -1,0 +1,25 @@
+name: MiniCal
+options:
+  bundleIdPrefix: com.minical
+  deploymentTarget:
+    macOS: "14.0"
+  xcodeVersion: "15"
+targets:
+  MiniCal:
+    type: application
+    platform: macOS
+    sources:
+      - MiniCal
+    info:
+      path: MiniCal/Info.plist
+      properties:
+        LSUIElement: true
+        LSMinimumSystemVersion: "$(MACOSX_DEPLOYMENT_TARGET)"
+    settings:
+      base:
+        SWIFT_VERSION: "5.9"
+        CODE_SIGN_STYLE: Automatic
+        MACOSX_DEPLOYMENT_TARGET: "14.0"
+        PRODUCT_BUNDLE_IDENTIFIER: com.minical.MiniCal
+    dependencies:
+      - sdk: ServiceManagement.framework
