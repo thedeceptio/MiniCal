@@ -112,6 +112,15 @@ Then press **Cmd+R** in Xcode.
 
 **Requires:** Xcode 15+, [xcodegen](https://github.com/yonaskolb/XcodeGen) (`brew install xcodegen`)
 
+### Regenerating the app icon
+
+The icon is drawn in code rather than stored as artwork. To change it, edit
+`Scripts/make-icon.swift` and re-run it:
+
+```bash
+swift Scripts/make-icon.swift MiniCal/Assets.xcassets/AppIcon.appiconset
+```
+
 ## Architecture
 
 | File | Purpose |

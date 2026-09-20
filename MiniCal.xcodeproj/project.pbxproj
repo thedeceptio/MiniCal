@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		275240687F19AE1F28B5970A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04AB9601A5CF9AAB493CC706 /* Assets.xcassets */; };
 		33A4F06E7141A3BE5A2EC914 /* CalendarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8120733A7FCAAF5069A15C2F /* CalendarModel.swift */; };
 		45E761DAE2D15F4ED9BEA775 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4705734B9D7FC18F949189F1 /* CalendarView.swift */; };
 		4B52AF176B89CB3BE883A89E /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1CCF8187D5A3CFA5CC54951 /* ServiceManagement.framework */; };
@@ -16,6 +17,7 @@
 
 /* Begin PBXFileReference section */
 		0475DD55793E2385B705C3F3 /* MiniCal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MiniCal.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		04AB9601A5CF9AAB493CC706 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1078832B4D6EEBF2818EE679 /* MenuBarLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarLabel.swift; sourceTree = "<group>"; };
 		4705734B9D7FC18F949189F1 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		8120733A7FCAAF5069A15C2F /* CalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarModel.swift; sourceTree = "<group>"; };
@@ -56,6 +58,7 @@
 		86DADF3506C7E642E4E65845 /* MiniCal */ = {
 			isa = PBXGroup;
 			children = (
+				04AB9601A5CF9AAB493CC706 /* Assets.xcassets */,
 				8120733A7FCAAF5069A15C2F /* CalendarModel.swift */,
 				4705734B9D7FC18F949189F1 /* CalendarView.swift */,
 				D25CF5F832C636022CF6AB9C /* Info.plist */,
@@ -81,6 +84,7 @@
 			buildConfigurationList = B3DC612C12803F260CB1E24D /* Build configuration list for PBXNativeTarget "MiniCal" */;
 			buildPhases = (
 				59A6C7B4A30200B29589FAD2 /* Sources */,
+				E5BB74D0230AB366FA290746 /* Resources */,
 				C9650662BBDD05917ED10807 /* Frameworks */,
 			);
 			buildRules = (
@@ -127,6 +131,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E5BB74D0230AB366FA290746 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				275240687F19AE1F28B5970A /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		59A6C7B4A30200B29589FAD2 /* Sources */ = {
