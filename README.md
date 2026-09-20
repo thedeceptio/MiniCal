@@ -12,10 +12,22 @@ Click the date in your menu bar → a clean monthly calendar appears instantly.
 
 - **Menu bar icon** showing the current day (e.g. `Sat 20`)
 - **Monthly calendar popup** with today highlighted
-- **Previous / next month** navigation
+- **Previous / next month** navigation, plus a **Today** button
+- **Full keyboard navigation**
 - **No Dock icon**, no app windows — lives entirely in the menu bar
 - **Launches at login** automatically
-- **Dark Mode** supported
+- **Dark Mode** and **VoiceOver** supported
+
+## Keyboard shortcuts
+
+| Key | Action |
+|---|---|
+| `←` `→` | Move one day |
+| `↑` `↓` | Move one week |
+| `Page Up` / `Page Down` | Previous / next month |
+| `T` | Jump to today |
+
+Arrowing past the end of a month moves the view into the next one automatically.
 
 ## Screenshot
 

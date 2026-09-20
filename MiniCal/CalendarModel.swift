@@ -14,10 +14,14 @@ final class CalendarModel: ObservableObject {
     @Published private(set) var displayedMonthTitle: String = ""
     @Published private(set) var isShowingCurrentMonth: Bool = true
 
-    private let calendar = Calendar.current
-    private let today = Date()
+    /// Keyboard cursor. nil until the user starts navigating with the arrow keys.
+    @Published var selectedDate: Date?
 
-    // The first day of the currently displayed month
+    private let calendar = Calendar.current
+
+    /// Read live rather than stored, so the app stays correct across midnight.
+    private var today: Date { calendar.startOfDay(for: Date()) }
+
     private var displayedFirstOfMonth: Date
 
     init() {
@@ -26,74 +30,88 @@ final class CalendarModel: ObservableObject {
         recompute()
     }
 
-    func goToPreviousMonth() {
-        guard let prev = calendar.date(byAdding: .month, value: -1, to: displayedFirstOfMonth) else { return }
-        displayedFirstOfMonth = prev
+    // MARK: - Navigation
+
+    func goToPreviousMonth() { shiftMonth(by: -1) }
+    func goToNextMonth() { shiftMonth(by: 1) }
+
+    func goToToday() {
+        displayedFirstOfMonth = calendar.startOfMonth(for: Date())
+        selectedDate = today
         recompute()
     }
 
-    func goToNextMonth() {
-        guard let next = calendar.date(byAdding: .month, value: 1, to: displayedFirstOfMonth) else { return }
-        displayedFirstOfMonth = next
+    /// Moves the keyboard cursor, following it into an adjacent month when it crosses a boundary.
+    func moveSelection(byDays days: Int) {
+        let anchor = selectedDate ?? (isShowingCurrentMonth ? today : displayedFirstOfMonth)
+        guard let next = calendar.date(byAdding: .day, value: days, to: anchor) else { return }
+        selectedDate = next
+
+        if !calendar.isDate(next, equalTo: displayedFirstOfMonth, toGranularity: .month) {
+            displayedFirstOfMonth = calendar.startOfMonth(for: next)
+            recompute()
+        }
+    }
+
+    private func shiftMonth(by value: Int) {
+        guard let shifted = calendar.date(byAdding: .month, value: value, to: displayedFirstOfMonth) else { return }
+        displayedFirstOfMonth = shifted
+        selectedDate = nil
         recompute()
     }
+
+    // MARK: - Grid generation
 
     private func recompute() {
         let year = calendar.component(.year, from: displayedFirstOfMonth)
         let month = calendar.component(.month, from: displayedFirstOfMonth)
 
-        // Month title e.g. "June 2026"
         let formatter = DateFormatter()
         formatter.dateFormat = "MMMM yyyy"
         displayedMonthTitle = formatter.string(from: displayedFirstOfMonth)
 
         isShowingCurrentMonth = calendar.isDate(displayedFirstOfMonth, equalTo: today, toGranularity: .month)
 
-        // Number of days in this month
         guard let dayRange = calendar.range(of: .day, in: .month, for: displayedFirstOfMonth) else { return }
         let dayCount = dayRange.count
 
-        // Leading blank count: how many cells before day 1
+        // How many cells sit before day 1, honouring the locale's first weekday.
         let firstWeekday = calendar.component(.weekday, from: displayedFirstOfMonth)
-        // calendar.firstWeekday is 1=Sun or 2=Mon depending on locale
         let leadingBlanks = (firstWeekday - calendar.firstWeekday + 7) % 7
 
-        // Build flat array of 42 Day? (6 rows × 7 cols)
         var flat: [Day?] = Array(repeating: nil, count: leadingBlanks)
-        for dayNum in 1...dayCount {
-            var comps = DateComponents()
-            comps.year = year
-            comps.month = month
-            comps.day = dayNum
-            if let date = calendar.date(from: comps) {
-                flat.append(Day(date: date, dayNumber: dayNum, isToday: calendar.isDateInToday(date)))
+        for dayNumber in 1...dayCount {
+            var components = DateComponents()
+            components.year = year
+            components.month = month
+            components.day = dayNumber
+            if let date = calendar.date(from: components) {
+                flat.append(Day(date: date, dayNumber: dayNumber, isToday: calendar.isDateInToday(date)))
             }
         }
-        // Pad to 42
-        while flat.count < 42 { flat.append(nil) }
 
-        // Split into 6 rows of 7
-        weeks = (0..<6).map { row in
+        // Only pad out the final row — a month needing 5 rows never renders a 6th.
+        let rowCount = Int(ceil(Double(flat.count) / 7.0))
+        while flat.count < rowCount * 7 { flat.append(nil) }
+
+        weeks = (0..<rowCount).map { row in
             Array(flat[(row * 7)..<(row * 7 + 7)])
         }
     }
 
     private func buildWeekdaySymbols() {
-        // shortWeekdaySymbols is always Sun–Sat (index 0=Sun)
-        // Rotate so index 0 = locale's first weekday
-        var symbols = calendar.shortWeekdaySymbols // ["Sun","Mon",...,"Sat"]
-        let shift = calendar.firstWeekday - 1      // 0 for Sun-first, 1 for Mon-first
+        // shortWeekdaySymbols is always Sun-first; rotate so index 0 is the locale's first weekday.
+        var symbols = calendar.shortWeekdaySymbols
+        let shift = calendar.firstWeekday - 1
         if shift > 0 {
             symbols = Array(symbols[shift...] + symbols[..<shift])
         }
-        // Truncate to 2 chars for a compact display (e.g. "Su", "Mo")
         weekdaySymbols = symbols.map { String($0.prefix(2)) }
     }
 }
 
 private extension Calendar {
     func startOfMonth(for date: Date) -> Date {
-        let comps = dateComponents([.year, .month], from: date)
-        return self.date(from: comps)!
+        self.date(from: dateComponents([.year, .month], from: date))!
     }
 }
