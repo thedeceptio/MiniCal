@@ -50,9 +50,13 @@ Arrowing past the end of a month moves the view into the next one automatically.
 
 ```bash
 brew install --cask thedeceptio/tap/minical
+xattr -cr /Applications/MiniCal.app
 ```
 
-Then launch it from `/Applications` or Spotlight. To update later:
+The second line is required — see [First launch](#first-launch--macos-will-block-it)
+below for why. Then launch MiniCal from `/Applications` or Spotlight.
+
+To update later:
 
 ```bash
 brew upgrade --cask minical
@@ -64,17 +68,31 @@ brew upgrade --cask minical
 2. Unzip and drag **MiniCal.app** to your `/Applications` folder
 3. Double-click to launch
 
-### First launch — Gatekeeper warning
+### First launch — macOS will block it
 
-macOS may show *"MiniCal can't be opened because it's from an unidentified developer."*
+MiniCal isn't notarized (that requires a paid Apple Developer account), so macOS
+refuses to open it until you clear the quarantine flag. This applies to Homebrew
+installs too.
 
-**Fix:** Right-click (or Control+click) `MiniCal.app` → click **Open** → click **Open** again.
-You only need to do this once.
+**Run this once, after installing:**
 
-Alternatively, run in Terminal:
 ```bash
 xattr -cr /Applications/MiniCal.app
 ```
+
+Then open the app normally.
+
+<details>
+<summary>Prefer not to use Terminal?</summary>
+
+Double-click `MiniCal.app` and let it fail, then go to **System Settings →
+Privacy & Security**, scroll to the Security section, and click **Open Anyway**
+next to the message about MiniCal.
+
+Note that Control-clicking the app and choosing **Open** — the old workaround —
+no longer bypasses Gatekeeper on macOS Sequoia and later.
+
+</details>
 
 ## Requirements
 
