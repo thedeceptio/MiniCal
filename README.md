@@ -33,18 +33,32 @@ Arrowing past the end of a month moves the view into the next one automatically.
 
 ```
 ┌────────────────────────┐
-│       June 2026        │
-│  <                >    │
+│  ‹     June 2026    ›  │
 │ Su Mo Tu We Th Fr Sa   │
-│  1  2  3  4  5  6  7   │
-│  8  9 10 11 12 13 14   │
-│ 15 16 17 18 19 [20] 21 │  ← today
-│ 22 23 24 25 26 27 28   │
-│ 29 30                  │
+│     1  2  3  4  5  6   │
+│  7  8  9 10 11 12 13   │
+│ 14 15 16 17 18 19 (20) │  ← today
+│ 21 22 23 24 25 26 27   │
+│ 28 29 30               │
+│         Today          │
 └────────────────────────┘
 ```
 
 ## Installation
+
+### Homebrew (recommended)
+
+```bash
+brew install --cask thedeceptio/tap/minical
+```
+
+Then launch it from `/Applications` or Spotlight. To update later:
+
+```bash
+brew upgrade --cask minical
+```
+
+### Manual download
 
 1. Download **MiniCal.zip** from the [latest release](../../releases/latest)
 2. Unzip and drag **MiniCal.app** to your `/Applications` folder
